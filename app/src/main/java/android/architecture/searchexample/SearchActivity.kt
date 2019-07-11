@@ -4,6 +4,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.SearchRecentSuggestions
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -22,15 +23,16 @@ class SearchActivity : AppCompatActivity() {
         handleIntent()
         Timber.d("onCreate")
 
-        //Verify the action and get the query
-
     }
 
     private fun handleIntent() {
         Timber.d("handleIntent")
         if(Intent.ACTION_SEARCH == intent.action){
             intent.getStringExtra(SearchManager.QUERY)?.also {query->
-                domySearch(query)
+
+            SearchRecentSuggestions(this,MySuggestionProvider.AUTHORITY,MySuggestionProvider.MODE).saveRecentQuery(query,null)
+            /*//검색 실행하는 로직
+            domySearch(query)*/
             }
         }
     }
@@ -46,6 +48,8 @@ class SearchActivity : AppCompatActivity() {
         // Inflate the options menu from XML
         val inflater = menuInflater
         inflater.inflate(R.menu.search_menu, menu)
+
+
 
         // Get the SearchView and set the searchable configuration
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
@@ -65,6 +69,10 @@ class SearchActivity : AppCompatActivity() {
     override fun onSearchRequested(): Boolean {
 
         return super.onSearchRequested()
+    }
 
+    //검색 History 삭제
+    fun clearSearchHistory(){
+        SearchRecentSuggestions(this,MySuggestionProvider.AUTHORITY,MySuggestionProvider.MODE).clearHistory()
     }
 }
