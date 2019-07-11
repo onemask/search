@@ -9,12 +9,20 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".SearchActivity">
+        <activity android:name=".OtherActivity">
+            <meta-data android:name="android.app.default_searchable"
+                       android:value=".SearchActivity" />
+        </activity>
+        <activity android:name=".SearchActivity"
+                android:launchMode="singleTop">
+
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                       android:resource="@xml/searchable"/>
+
+            <meta-data
+                    android:name="android.app.searchable"
+                    android:resource="@xml/searchable"/>
         </activity>
 
         <meta-data
@@ -28,6 +36,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <provider android:authorities=".MySuggestionProvider"
+                  android:name="android.architecture.searchexample.MySuggestionProvider"/>
+
     </application>
+
+
 
 </manifest>
