@@ -15,6 +15,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,7 +26,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Timber.plant(Timber.DebugTree())
         setupToolbar()
+        setupButton()
+
+    }
+
+    private fun setupButton() {
+        button.setOnClickListener {
+            startActivity(newSearchActivity())
+        }
     }
 
     private fun setupToolbar() {
@@ -42,22 +52,25 @@ class MainActivity : AppCompatActivity() {
         toolbar.menu?.let {
             val searchItem = it.findItem(R.id.action_search)
             searchItem?.let {
+                //메뉴의 확장과 축소 이벤트 관리.
                 it.setOnActionExpandListener(object : MenuItem.OnActionExpandListener{
-                    override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                    override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                         layout_search_result.visibility = View.VISIBLE
                         return true
                     }
 
-                    override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                    override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                         layout_search_result.visibility = View.GONE
                         return true
                     }
                 })
 
                 searchView = it.actionView as SearchView
-                searchView?.maxWidth = (Integer.MAX_VALUE)
 
+                searchView?.maxWidth = (Integer.MAX_VALUE)
                 searchView?.queryHint ="검색어를 입력해주세요"
+
+                //검색, 변경,이벤트 관리
                 searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         Log.d("searchView", "onQueryTextSubmit $query")
