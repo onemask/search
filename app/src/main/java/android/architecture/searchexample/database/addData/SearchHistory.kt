@@ -1,4 +1,4 @@
-package android.architecture.searchexample.database
+package android.architecture.searchexample.database.addData
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -10,3 +10,4 @@ data class SearchHistory (
     @ColumnInfo(name = "name")var name : String,
     @ColumnInfo(name ="updateTime" ) var updateTime : String
 )
+
