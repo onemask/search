@@ -1,8 +1,8 @@
 package android.architecture.searchexample
 
 import android.annotation.SuppressLint
-import android.architecture.searchexample.database.AppDataBase
-import android.architecture.searchexample.database.SearchHistoryDao
+import android.architecture.searchexample.database.addData.AppDataBase
+import android.architecture.searchexample.database.addData.SearchHistoryDao
 import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
@@ -27,9 +27,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Timber.plant(Timber.DebugTree())
+        Timber.d("here")
         setupToolbar()
         setupButton()
-
     }
 
     private fun setupButton() {
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 searchView = it.actionView as SearchView
 
                 searchView?.maxWidth = (Integer.MAX_VALUE)
-                searchView?.queryHint ="검색어를 입력해주세요"
+                searchView?.queryHint ="요녀석"
 
                 //검색, 변경,이벤트 관리
                 searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
